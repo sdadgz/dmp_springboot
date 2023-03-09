@@ -1,0 +1,8 @@
+my:
+  mqtt:
+    host: tcp://sdadgz.cn:1883
+    client-id: test_server
+    username: admin
+    password: sdadgz.cn
+    timeout: 1000
+    keep-alive: 10
