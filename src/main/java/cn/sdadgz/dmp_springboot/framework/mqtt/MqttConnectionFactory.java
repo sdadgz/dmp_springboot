@@ -1,5 +1,7 @@
-package cn.sdadgz.dmp_springboot.mqtt;
+package cn.sdadgz.dmp_springboot.framework.mqtt;
 
+import cn.sdadgz.dmp_springboot.framework.config.MqttConfig;
+import cn.sdadgz.dmp_springboot.mqtt.MqttDefaultCallBack;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -8,10 +10,7 @@ import org.eclipse.paho.client.mqttv3.IMqttToken;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.Resource;
 
 /**
  * mqtt连接工厂

@@ -1,14 +1,11 @@
-package cn.sdadgz.dmp_springboot.mqtt;
+package cn.sdadgz.dmp_springboot.framework.mqtt;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
-import org.springframework.stereotype.Component;
 
 /**
  * mqtt订阅者客户端

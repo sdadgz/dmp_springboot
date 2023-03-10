@@ -1,7 +1,7 @@
 package cn.sdadgz.dmp_springboot.utils;
 
 import cn.hutool.extra.spring.SpringUtil;
-import cn.sdadgz.dmp_springboot.mqtt.MqttController;
+import cn.sdadgz.dmp_springboot.controller.MqttController;
 import org.springframework.stereotype.Component;
 
 /**
