@@ -11,13 +11,14 @@ import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 @SpringBootTest
 class DmpSpringbootApplicationTests {
 
     @Resource
-    private Map<String, Class<?>> mqttControllerRouter;
+    private Map<String, Consumer<String>> mqttControllerRouter;
 
     @Test
     void contextLoads() {

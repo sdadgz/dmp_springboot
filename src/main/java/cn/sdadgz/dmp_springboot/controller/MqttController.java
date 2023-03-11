@@ -1,13 +1,17 @@
 package cn.sdadgz.dmp_springboot.controller;
 
+import cn.sdadgz.dmp_springboot.entity.Test;
 import cn.sdadgz.dmp_springboot.framework.config.MqttConfig;
 import cn.sdadgz.dmp_springboot.framework.mqtt.MqttConnectionFactory;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.User;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -20,7 +24,6 @@ import javax.servlet.http.HttpServletResponse;
  * @author sdadgz
  * @since 2023/3/9 19:51:16
  */
-@Component
 @Slf4j
 @RequiredArgsConstructor
 @cn.sdadgz.dmp_springboot.framework.annotation.MqttController
@@ -30,8 +33,8 @@ public class MqttController {
 
     // 测试订阅sub
     @RequestMapping("/test")
-    public void test(String msg) {
-        System.out.println();
+    public void test(Test test) {
+        System.out.println(test.getMsg());
     }
 
     // 测试订阅sub

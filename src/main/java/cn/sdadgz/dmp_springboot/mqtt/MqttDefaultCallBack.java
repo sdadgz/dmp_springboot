@@ -1,6 +1,8 @@
 package cn.sdadgz.dmp_springboot.mqtt;
 
 import cn.sdadgz.dmp_springboot.framework.annotation.MqttCallbackConnectLost;
+import cn.sdadgz.dmp_springboot.framework.annotation.MqttCallbackDeliveryComplete;
+import cn.sdadgz.dmp_springboot.framework.annotation.MqttCallbackMessageArrived;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
@@ -32,8 +34,8 @@ public class MqttDefaultCallBack implements MqttCallback {
 
     // 接消息之后
     @Override
+    @MqttCallbackMessageArrived
     public void messageArrived(String topic, MqttMessage message) throws Exception {
-//        Method method = MqttController.class.getMethod();
         // subscribe后得到的消息会执行到这里面,这里在控制台有输出
         log.info("接收消息主题 : " + topic);
         log.info("接收消息Qos : " + message.getQos());
@@ -42,6 +44,7 @@ public class MqttDefaultCallBack implements MqttCallback {
 
     // 发消息之后
     @Override
+    @MqttCallbackDeliveryComplete
     public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
 
     }
