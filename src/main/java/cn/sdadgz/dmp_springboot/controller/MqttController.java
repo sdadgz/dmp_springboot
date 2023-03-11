@@ -36,7 +36,7 @@ public class MqttController {
 
     // 测试订阅sub
     @RequestMapping("/test01")
-    public void test01(MqttConfig msg) {
+    public void test01(String msg) {
         System.out.println();
     }
 

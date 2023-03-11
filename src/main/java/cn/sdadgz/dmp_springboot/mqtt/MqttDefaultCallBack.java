@@ -1,5 +1,6 @@
 package cn.sdadgz.dmp_springboot.mqtt;
 
+import cn.sdadgz.dmp_springboot.framework.annotation.MqttCallbackConnectLost;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
@@ -24,9 +25,9 @@ public class MqttDefaultCallBack implements MqttCallback {
 
     // 断开连接之后
     @Override
+    @MqttCallbackConnectLost
     public void connectionLost(Throwable throwable) {
         log.info("mqtt断开连接，正在重连");
-//        SpringFuckingCycleUtil.mqttController.startAll();+
     }
 
     // 接消息之后

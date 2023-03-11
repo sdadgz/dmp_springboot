@@ -22,11 +22,4 @@ import java.lang.annotation.*;
 public @interface MqttCallback {
     @AliasFor(annotation = Component.class)
     String value() default "";
-
-    // 丢失连接回调函数方法名
-    String connectionLostMethodName() default "connectionLost";
-    // 收到订阅的消息回调函数方法名
-    String messageArrivedMethodName() default "messageArrived";
-    // 发送消息之后回调函数方法名
-    String deliveryCompleteMethodName() default "deliveryComplete";
 }

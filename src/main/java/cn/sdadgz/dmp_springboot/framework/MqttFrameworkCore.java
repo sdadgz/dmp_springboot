@@ -28,7 +28,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class MqttFrameworkCore {
 
-    private final MqttConnectionFactory mqttConnectionFactory;
     private final SpringUtil springUtil;
 
     // 开始函数
