@@ -1,12 +1,13 @@
 package cn.sdadgz.dmp_springboot.framework.utils;
 
-import cn.hutool.core.annotation.AnnotationUtil;
 import cn.hutool.core.util.ClassUtil;
 import cn.sdadgz.dmp_springboot.framework.annotation.MqttController;
-import lombok.var;
+import cn.sdadgz.dmp_springboot.framework.mqtt.MqttConnectionFactory;
+import cn.sdadgz.dmp_springboot.framework.mqtt.MqttSubscribeClient;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.lang.reflect.Method;
@@ -23,15 +24,11 @@ import java.util.stream.Collectors;
  * @author sdadgz
  * @since 2023/3/10 19:02:21
  */
-@Component
+@Configuration
+@RequiredArgsConstructor
 public class SpringUtil {
 
-    // 获取springboot启动项包名
-    public String getSpringApplicationPackageName() {
-        Set<Class<?>> classes = ClassUtil.scanPackageByAnnotation("", SpringBootApplication.class);
-        List<String> collect = classes.stream().map(ClassUtil::getPackage).collect(Collectors.toList());
-        return collect.size() == 1 ? collect.get(0) : "";
-    }
+    private final MqttConnectionFactory mqttConnectionFactory;
 
     // 获取mqtt路由
     @Bean
@@ -71,6 +68,30 @@ public class SpringUtil {
         });
 
         return map;
+    }
+
+    // 获取springboot启动项包名
+    public String getSpringApplicationPackageName() {
+        Set<Class<?>> classes = ClassUtil.scanPackageByAnnotation("", SpringBootApplication.class);
+        List<String> collect = classes.stream().map(ClassUtil::getPackage).collect(Collectors.toList());
+        return collect.size() == 1 ? collect.get(0) : "";
+    }
+
+    // 连接并 订阅所有
+    public void connectAndSubscribeAll() {
+        mqttConnectionFactory.connect();
+        // 遗留问题，不能自依赖
+        getMqttControllerRouter().keySet().forEach(url -> new MqttSubscribeClient().setTopic(url).subscribe());
+    }
+
+    // 重新连接
+    public void reconnect(){
+        connectAndSubscribeAll();
+    }
+
+    @Bean
+    public void start() {
+        connectAndSubscribeAll();
     }
 
 }

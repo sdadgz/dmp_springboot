@@ -24,7 +24,6 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 @RequiredArgsConstructor
 @cn.sdadgz.dmp_springboot.framework.annotation.MqttController
-@RequestMapping("/mqtt")
 public class MqttController {
 
     private final MqttConnectionFactory mqttConnectionFactory;
@@ -42,12 +41,5 @@ public class MqttController {
     }
 
     // 接收gps
-
-    // 容器创建时启动
-//    @Bean
-//    public void startAll() {
-//        mqttConnectionFactory.connect();
-//        new MqttSubscribeClient().subscribe();
-//    }
 
 }
