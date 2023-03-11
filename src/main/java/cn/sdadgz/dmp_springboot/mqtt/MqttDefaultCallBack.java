@@ -18,7 +18,6 @@ import org.springframework.stereotype.Component;
  * @since 2023/3/9 19:47:58
  */
 @Slf4j
-@Component
 @RequiredArgsConstructor
 @cn.sdadgz.dmp_springboot.framework.annotation.MqttCallback
 public class MqttDefaultCallBack implements MqttCallback {

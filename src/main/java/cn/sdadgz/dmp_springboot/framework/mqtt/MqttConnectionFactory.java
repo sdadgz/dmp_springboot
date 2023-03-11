@@ -1,12 +1,12 @@
 package cn.sdadgz.dmp_springboot.framework.mqtt;
 
 import cn.sdadgz.dmp_springboot.framework.config.MqttConfig;
-import cn.sdadgz.dmp_springboot.mqtt.MqttDefaultCallBack;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.paho.client.mqttv3.IMqttToken;
+import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
@@ -27,7 +27,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class MqttConnectionFactory {
 
-    private final MqttDefaultCallBack mqttDefaultCallBack;
+    private final MqttCallback mqttCallback;
     private final MqttConfig mqttConfig;
 
     // mqtt客户端
@@ -58,7 +58,7 @@ public class MqttConnectionFactory {
             setMqttClient(client);
             try {
                 //设置回调类
-                client.setCallback(mqttDefaultCallBack);
+                client.setCallback(mqttCallback);
 //                client.connect(options);
                 IMqttToken iMqttToken = client.connectWithResult(options);
                 boolean complete = iMqttToken.isComplete();

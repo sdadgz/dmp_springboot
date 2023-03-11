@@ -1,8 +1,8 @@
 package cn.sdadgz.dmp_springboot.framework;
 
 import cn.hutool.core.util.ClassUtil;
-import cn.hutool.extra.spring.SpringUtil;
 import cn.sdadgz.dmp_springboot.framework.mqtt.MqttConnectionFactory;
+import cn.sdadgz.dmp_springboot.framework.utils.SpringUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -29,22 +29,12 @@ import java.util.stream.Collectors;
 public class MqttFrameworkCore {
 
     private final MqttConnectionFactory mqttConnectionFactory;
+    private final SpringUtil springUtil;
 
-    // 订阅全部topic
-    public void subscribeTopics() {
-        // todo 获取带有controller注解的类并将所有带有requestMapping的存进去
-    }
-
-    // 连接mqtt
+    // 开始函数
     @Bean
-    public void connect() {
-        mqttConnectionFactory.connect();
-        subscribeTopics();
-    }
-
-    // 重新连接
-    public void reConnect() {
-        connect();
+    public void start(){
+        springUtil.connectAndSubscribeAll();
     }
 
 }

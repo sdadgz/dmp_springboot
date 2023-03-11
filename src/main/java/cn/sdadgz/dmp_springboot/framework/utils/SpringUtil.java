@@ -1,15 +1,19 @@
 package cn.sdadgz.dmp_springboot.framework.utils;
 
+import cn.hutool.core.annotation.AnnotationUtil;
 import cn.hutool.core.util.ClassUtil;
 import cn.sdadgz.dmp_springboot.framework.annotation.MqttController;
 import cn.sdadgz.dmp_springboot.framework.mqtt.MqttConnectionFactory;
 import cn.sdadgz.dmp_springboot.framework.mqtt.MqttSubscribeClient;
 import lombok.RequiredArgsConstructor;
+import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -86,11 +90,6 @@ public class SpringUtil {
 
     // 重新连接
     public void reconnect(){
-        connectAndSubscribeAll();
-    }
-
-    @Bean
-    public void start() {
         connectAndSubscribeAll();
     }
 
