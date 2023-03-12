@@ -2,6 +2,7 @@ package cn.sdadgz.framework;
 
 import cn.sdadgz.framework.utils.SpringUtil;
 import lombok.RequiredArgsConstructor;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -24,10 +25,10 @@ import java.util.function.Consumer;
 public class MqttFrameworkCore {
 
     private final SpringUtil springUtil;
-    private final Map<String, Consumer<String>> mqttControllerRouter;
+    private final Map<String, Consumer<MqttMessage>> mqttControllerRouter;
 
     // 调用controller层方法
-    public void controllerHandler(String topic, String qos, String msg) {
+    public void controllerHandler(String topic, String qos, MqttMessage msg) {
         mqttControllerRouter.get(topic).accept(msg);
     }
 

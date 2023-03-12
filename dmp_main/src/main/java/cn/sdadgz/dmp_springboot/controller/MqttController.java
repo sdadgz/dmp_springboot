@@ -1,11 +1,14 @@
 package cn.sdadgz.dmp_springboot.controller;
 
 import cn.sdadgz.dmp_springboot.entity.Test;
+import cn.sdadgz.dmp_springboot.utils.RedisUtil;
 import cn.sdadgz.dmp_springboot.utils.StringUtil;
-import cn.sdadgz.framework.mqtt.MqttConnectionFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.UUID;
 
 /**
  * mqtt控制者
@@ -22,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @cn.sdadgz.framework.annotation.MqttController
 public class MqttController {
 
-    private final MqttConnectionFactory mqttConnectionFactory;
+    private final RedisUtil redisUtil;
 
     // 测试订阅sub
     @RequestMapping("/test")
@@ -46,15 +49,24 @@ public class MqttController {
      * field 12: 模式，A =自动，D =差分，E =估计，AND =无效数据（3.0协议内容）<br>
      * field 13: 校验和<br>
      *
-     * @param gps 收到的gps信息
+     * @param message 收到的gps信息
      */
     @RequestMapping("/gps")
-    public void gps(String gps) {
-        log.info("gps接收到消息：{}" + gps);
+    public void gps(MqttMessage message) {
+        // gps
+        String gps = new String(message.getPayload());
+        // 经纬度
         String[] fields = gps.split(",");
-        String latitude = StringUtil.longitudeAndLatitudeFormat(fields[3]);
-        String longitude = StringUtil.longitudeAndLatitudeFormat(fields[5]);
-        log.info("latitude：{}，longitude：{}",latitude,longitude);
+        String longitude = StringUtil.longitudeAndLatitudeFormat(fields[5]); // 经度
+        String latitude = StringUtil.longitudeAndLatitudeFormat(fields[3]); // 纬度
+
+        // 测试打印
+        log.info("gps接收到消息：{}" + gps);
+        log.info("来自于：{}的消息", message.getId());
+        log.info("latitude：{}，longitude：{}", latitude, longitude);
+
+        // 存数据库里
+        redisUtil.set(StringUtil.GPS_PREFIX + UUID.randomUUID(), latitude + StringUtil.SPLIT + longitude, 10);
     }
 
 }

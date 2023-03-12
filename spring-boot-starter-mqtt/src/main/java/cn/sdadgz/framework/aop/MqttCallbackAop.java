@@ -40,7 +40,7 @@ public class MqttCallbackAop {
     public void messageArrived(String topic, MqttMessage message) {
         mqttFrameworkCore.controllerHandler(topic,
                 String.valueOf(message.getQos()),
-                new String(message.getPayload()));
+                message);
     }
 
     // 消息发送后

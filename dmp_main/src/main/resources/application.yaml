@@ -6,3 +6,7 @@ my:
     password: sdadgz.cn
     timeout: 1000
     keep-alive: 10
+spring:
+  redis:
+    host: sdadgz.cn
+    port: 6379

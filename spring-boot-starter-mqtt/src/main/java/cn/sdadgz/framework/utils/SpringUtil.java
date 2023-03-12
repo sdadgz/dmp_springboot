@@ -6,6 +6,7 @@ import cn.sdadgz.framework.annotation.MqttController;
 import cn.sdadgz.framework.mqtt.MqttConnectionFactory;
 import cn.sdadgz.framework.mqtt.MqttSubscribeClient;
 import lombok.RequiredArgsConstructor;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,9 +36,9 @@ public class SpringUtil {
 
     // 获取mqtt路由
     @Bean
-    public Map<String, Consumer<String>> getMqttControllerRouter() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    public Map<String, Consumer<MqttMessage>> getMqttControllerRouter() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         // 返回值
-        HashMap<String, Consumer<String>> map = new HashMap<>();
+        HashMap<String, Consumer<MqttMessage>> map = new HashMap<>();
         // springboot包路径
         String springApplicationPackageName = getSpringApplicationPackageName();
         // 获取所有controller
@@ -61,9 +62,12 @@ public class SpringUtil {
             for (int i = 0; i < methodThatHasRequestMapping.size(); i++) {
                 String otherPath = methodThatHasRequestMapping.get(i).getAnnotation(RequestMapping.class).value()[0];
                 int finalI = i;
-                map.put(basePath + otherPath, msg -> {
+                map.put(basePath + otherPath, massage -> {
+                    String msg = new String(massage.getPayload());
                     try {
-                        methodThatHasRequestMapping.get(finalI).invoke(controller, JSONUtil.toBean(msg, methodThatHasRequestMapping.get(finalI).getParameterTypes()[0]));
+                        Method method = methodThatHasRequestMapping.get(finalI);
+                        // 如果类型是MqttMessage，不管直接扔进去
+                        method.invoke(controller, method.getParameterTypes()[0] == MqttMessage.class ? massage : method.getParameterTypes()[0] == String.class ? msg : JSONUtil.toBean(msg, method.getParameterTypes()[0]));
                     } catch (IllegalAccessException | InvocationTargetException e) {
                         e.printStackTrace();
                     }
